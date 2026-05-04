@@ -1,0 +1,144 @@
+{
+  "project_name": "SRI SAI ANNAPOORNA GRAND",
+  "domain": "Restaurant / Food & Hospitality",
+  "theme_and_archetype": {
+    "theme": "LIGHT",
+    "archetype": "Archetype 1 (Organic & Earthy)",
+    "reasoning": "Patients/diners need warmth, calm, trust. Organic palette fits the 'comfort food that feels like home' narrative perfectly. Highlighting warm saffron (spices), cream (dosa/batter), and dark green (banana leaf)."
+  },
+  "color_palette": {
+    "background_primary": "#FFF6E9",
+    "background_secondary": "#FFFFFF",
+    "primary": "#C96A2B",
+    "primary_hover": "#A65520",
+    "accent": "#2F5D50",
+    "accent_hover": "#21443A",
+    "text_primary": "#2B2B2B",
+    "text_secondary": "#5C5C5C",
+    "surface_borders": "#EADECF"
+  },
+  "typography": {
+    "font_family": {
+      "headings": "'Playfair Display', serif",
+      "body": "'Poppins', sans-serif"
+    },
+    "hierarchy": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-none",
+      "h2": "text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-tight",
+      "h3": "text-xl sm:text-2xl leading-snug",
+      "body": "text-base sm:text-lg leading-relaxed",
+      "labels": "text-xs sm:text-sm uppercase tracking-[0.2em] font-medium text-accent"
+    }
+  },
+  "spacing_and_layout": {
+    "container_padding": "px-6 md:px-12 lg:px-24",
+    "section_spacing": "py-24 md:py-32",
+    "element_gap": "gap-8 md:gap-12",
+    "border_radius": {
+      "cards": "rounded-2xl",
+      "buttons": "rounded-full",
+      "images": "rounded-3xl",
+      "pills": "rounded-full"
+    },
+    "grid_strategy": {
+      "description": "Mode A (Tetris Grid) for marketing visual impact. Avoid standard symmetrical columns everywhere. Mix large hero spans with smaller supporting blocks.",
+      "menu_bento": "grid grid-cols-1 md:grid-cols-12 gap-6",
+      "bento_span_large": "md:col-span-8 row-span-2",
+      "bento_span_small": "md:col-span-4 row-span-1"
+    }
+  },
+  "ui_surfaces": {
+    "cards": "bg-white border border-[#EADECF] shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
+    "glass_header": "bg-[#FFF6E9]/80 backdrop-blur-xl border-b border-[#EADECF]/50 shadow-sm",
+    "floating_elements": "shadow-[0_20px_40px_rgba(43,43,43,0.08)]"
+  },
+  "motion_and_interactions": {
+    "scroll_library": "lenis (smooth scrolling)",
+    "animation_library": "framer-motion",
+    "hover_states": {
+      "buttons": "transition-all duration-300 hover:-translate-y-1 hover:shadow-lg",
+      "cards": "transition-transform duration-400 ease-out hover:scale-[1.02] hover:shadow-[0_15px_40px_rgb(0,0,0,0.08)]",
+      "links": "transition-colors duration-200 hover:text-primary"
+    },
+    "scroll_reveals": {
+      "type": "fade-up and slight stagger",
+      "initial": "{ opacity: 0, y: 30 }",
+      "animate": "{ opacity: 1, y: 0 }",
+      "transition": "{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }"
+    }
+  },
+  "sections_and_components": [
+    {
+      "name": "Sticky Nav",
+      "type": "Header",
+      "instructions": "Use 'glass_header' surface styling. Logo on left (Playfair Display, bold, primary color). Links centered, hidden on mobile behind hamburger. Primary CTA 'Reservation' on right. Must sit above all content (z-50). Add pt-[100px] to main wrapper."
+    },
+    {
+      "name": "Hero Section",
+      "type": "Split/Asymmetric Layout",
+      "instructions": "Content on left, dynamic overlapping imagery on right. Headline in Playfair Display. Use accent color overlines. Two CTAs ('View Menu' solid primary, 'Visit Us Today' outline accent). Right side should have the main hero image (dosa) breaking out of its container slightly to feel organic."
+    },
+    {
+      "name": "About/Story",
+      "type": "Content Block",
+      "instructions": "Generous spacing. Large expressive typography. Interplay between text and a secondary image (restaurant interior). Quote block 'Comfort food that feels like home' using italicized serif."
+    },
+    {
+      "name": "Menu/Services Highlights",
+      "type": "Bento Grid",
+      "instructions": "Use Mode A 'Tetris' grid. Show categories: Breakfast Specials, South Indian, North Indian, Snacks. Use large luscious images as backgrounds for the cards with gradient overlays (black/40 to transparent) so text is readable."
+    },
+    {
+      "name": "Why Choose Us",
+      "type": "Feature Grid",
+      "instructions": "Clean icons (Lucide React - star, heart, wallet, map-pin). Cardless UI. Use generous spacing (gap-12). Text aligned left. Soft accent color circles behind icons."
+    },
+    {
+      "name": "Customer Reviews",
+      "type": "Carousel",
+      "instructions": "Use Framer Motion or Swiper. Soft cards (bg-white) resting on the primary cream background. Include star ratings. High contrast text."
+    },
+    {
+      "name": "Location & Final CTA",
+      "type": "Footer / Banner",
+      "instructions": "Massive typography for CTA: 'Hungry? Visit Us Today!'. Deep green (#2F5D50) background for this block, cream (#FFF6E9) text. Clean embedded map block or stylized address card. Footer links below."
+    }
+  ],
+  "media": {
+    "images": [
+      {
+        "category": "hero",
+        "description": "Crispy golden South Indian dosa",
+        "url": "https://images.unsplash.com/photo-1743517894265-c86ab035adef?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHw0fHxzb3V0aCUyMGluZGlhbiUyMGRvc2ElMjBmb29kfGVufDB8fHx8MTc3NzYzOTUyMnww&ixlib=rb-4.1.0&q=85"
+      },
+      {
+        "category": "menu_thali",
+        "description": "Indian thali with assorted foods on metal tray",
+        "url": "https://images.unsplash.com/photo-1711153419402-336ee48f2138?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwyfHxpbmRpYW4lMjB0aGFsaSUyMGZlYXN0JTIwbWVhbHN8ZW58MHx8fHwxNzc3NjM5NTIyfDA&ixlib=rb-4.1.0&q=85"
+      },
+      {
+        "category": "menu_assorted",
+        "description": "Assorted indian dishes",
+        "url": "https://images.unsplash.com/photo-1589778655375-3e622a9fc91c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwxfHxpbmRpYW4lMjB0aGFsaSUyMGZlYXN0JTIwbWVhbHN8ZW58MHx8fHwxNzc3NjM5NTIyfDA&ixlib=rb-4.1.0&q=85"
+      },
+      {
+        "category": "interior_ambience",
+        "description": "Warm dim restaurant interior table setting",
+        "url": "https://images.unsplash.com/photo-1762806883627-4bcbfad98a2c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDZ8MHwxfHNlYXJjaHwzfHxjb3p5JTIwd2FybSUyMHJlc3RhdXJhbnQlMjBpbnRlcmlvcnxlbnwwfHx8fDE3Nzc2Mzk1MjJ8MA&ixlib=rb-4.1.0&q=85"
+      }
+    ],
+    "icons_library": "lucide-react"
+  },
+  "critical_rules": [
+    "Use standard Tailwind HTML (div, section) for layouts, avoid strict Shadcn container elements for marketing sections to allow fluid overlaps.",
+    "Do NOT use pure black. Use #2B2B2B for darkest text.",
+    "Do NOT center align text in paragraphs; left-align for readability.",
+    "Apply 'data-testid' to all interactive elements (buttons, nav links, form inputs) using kebab-case role-based names."
+  ],
+  "dependencies": [
+    "framer-motion",
+    "lucide-react",
+    "clsx",
+    "tailwind-merge"
+  ]
+}
