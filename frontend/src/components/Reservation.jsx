@@ -26,49 +26,52 @@ export const Reservation = () => {
     }
     setLoading(true);
     try {
-      const formattedDate = new Date(form.date).toISOString().split("T")[0];
+      const { name, phone, email, date, time, guests, notes } = form;
+      const formattedDate = new Date(date).toISOString().split("T")[0];
 
-      const payload = {
-        name: form.name,
-        phone: form.phone,
-        date: formattedDate,
-        time: form.time,
-        guests: Number(form.guests),
-        email: form.email || null,
-        notes: form.notes || null,
-      };
-
-      const response = await fetch("/api/reservation", {
+      const res = await fetch("/api/reservation", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          date: formattedDate,
+          time,
+          guests: Number(guests),
+          notes
+        })
       });
 
-      const data = await response.json().catch(() => ({}));
+      console.log("Response status:", res.status);
+      const data = await res.json();
+      console.log("Response data:", data);
 
-      if (!response.ok || !data.success) {
-        throw new Error(data.message || "Failed to submit reservation");
+      if (data.success) {
+        alert("Booking successful");
+        
+        const message = `New Booking:\nName: ${name}\nPhone: ${phone}\nDate: ${formattedDate}\nTime: ${time}\nGuests: ${guests}`;
+        window.open(`https://wa.me/9590826668?text=${encodeURIComponent(message)}`);
+        
+        setDone(true);
+        toast.success("Table requested! We’ll call to confirm shortly.");
+        setForm({
+          name: "",
+          phone: "",
+          email: "",
+          date: "",
+          time: "19:30",
+          guests: 2,
+          notes: "",
+        });
+      } else {
+        alert("Submission failed");
       }
-
-      const message = `New Booking:\nName: ${form.name}\nPhone: ${form.phone}\nDate: ${formattedDate}\nTime: ${form.time}\nGuests: ${form.guests}`;
-      window.open(`https://wa.me/9590826668?text=${encodeURIComponent(message)}`);
-      
-      setDone(true);
-      toast.success("Table requested! We’ll call to confirm shortly.");
-      setForm({
-        name: "",
-        phone: "",
-        email: "",
-        date: "",
-        time: "19:30",
-        guests: 2,
-        notes: "",
-      });
     } catch (err) {
-      console.error(err);
-      toast.error("Could not submit reservation. Please try again or call us.");
+      console.error("Submit Catch Error:", err);
+      alert("Submission failed");
     } finally {
       setLoading(false);
     }
