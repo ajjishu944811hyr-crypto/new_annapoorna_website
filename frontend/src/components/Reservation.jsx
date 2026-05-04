@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { Calendar, Clock, Users, Phone, Mail, User, MessageSquare, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
-
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
 export const Reservation = () => {
   const [form, setForm] = useState({
@@ -31,26 +28,34 @@ export const Reservation = () => {
     try {
       const formattedDate = new Date(form.date).toISOString().split("T")[0];
 
-       const payload = {
-  name: form.name,
-  phone: form.phone,
-  date: formattedDate,
-  time: form.time,
-  guests: Number(form.guests),
-  email: form.email || null,
-  notes: form.notes || null,
-};
-      await axios.post("http://127.0.0.1:8000/api/reservations", payload);
-      const message = `New Booking:
-Name: ${form.name}
-Phone: ${form.phone}
-Date: ${formattedDate}
-Time: ${form.time}
-Guests: ${form.guests}`;
+      const payload = {
+        name: form.name,
+        phone: form.phone,
+        date: formattedDate,
+        time: form.time,
+        guests: Number(form.guests),
+        email: form.email || null,
+        notes: form.notes || null,
+      };
 
-window.open(`https://wa.me/9590826668?text=${encodeURIComponent(message)}`);
+      const response = await fetch("/api/reservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Failed to submit reservation");
+      }
+
+      const message = `New Booking:\nName: ${form.name}\nPhone: ${form.phone}\nDate: ${formattedDate}\nTime: ${form.time}\nGuests: ${form.guests}`;
+      window.open(`https://wa.me/9590826668?text=${encodeURIComponent(message)}`);
+      
       setDone(true);
-
       toast.success("Table requested! We’ll call to confirm shortly.");
       setForm({
         name: "",
