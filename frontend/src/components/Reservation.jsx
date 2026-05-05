@@ -21,7 +21,8 @@ export const Reservation = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch("https://your-backend.onrender.com/reservation", {
+      const API_URL = import.meta.env.VITE_API_URL || "https://new-annapoorna-website.onrender.com";
+      const res = await fetch(`${API_URL}/reservation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
