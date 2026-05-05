@@ -18,47 +18,11 @@ export const Reservation = () => {
 
   const update = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
-  const submit = async (e) => {
+  const submit = (e) => {
     e.preventDefault();
     const { name, phone, email, date, time, guests, notes } = form;
-    try {
-      console.log("Sending request...");
-
-      const res = await fetch("/api/reservation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name,
-          phone,
-          email,
-          date,
-          time,
-          guests,
-          notes
-        })
-      });
-
-      console.log("Response status:", res.status);
-
-      // Handle non-JSON responses (like Vercel 404 pages) gracefully
-      const contentType = res.headers.get("content-type");
-      if (!contentType || !contentType.includes("application/json")) {
-        const textError = await res.text();
-        console.error("Non-JSON response:", textError);
-        alert(`Server Error (${res.status}). Ensure Vercel API is deployed correctly. Cannot parse response as JSON.`);
-        return;
-      }
-
-      const data = await res.json();
-      console.log("Response data:", data);
-
-      if (data.success) {
-        alert("Booking successful!");
-        
-        // Open WhatsApp
-        const message = `New Reservation:
+    
+    const message = `New Reservation:
 Name: ${name}
 Phone: ${phone}
 Email: ${email}
@@ -67,17 +31,10 @@ Time: ${time}
 Guests: ${guests}
 Notes: ${notes}`;
 
-        const whatsappURL = `https://wa.me/919590826668?text=${encodeURIComponent(message)}`;
-        window.open(whatsappURL, "_blank");
-
-        setDone(true);
-      } else {
-        alert("Submission failed: " + (data.message || "Unknown error"));
-      }
-    } catch (err) {
-      console.error("Fetch error:", err);
-      alert("Error submitting form: " + err.message);
-    }
+    const whatsappURL = `https://wa.me/919590826668?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, "_blank");
+    setDone(true);
+    return;
   };
 
   return (
