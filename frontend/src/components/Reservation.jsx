@@ -20,21 +20,16 @@ export const Reservation = () => {
 
   const submit = (e) => {
     e.preventDefault();
-    const { name, phone, email, date, time, guests, notes } = form;
-    
     const message = `New Reservation:
-Name: ${name}
-Phone: ${phone}
-Email: ${email}
-Date: ${date}
-Time: ${time}
-Guests: ${guests}
-Notes: ${notes}`;
-
+    Name: ${form.name}
+    Phone: ${form.phone}
+    Email: ${form.email}
+    Date: ${form.date}
+    Time: ${form.time}
+    Guests: ${form.guests}
+    Notes: ${form.notes}`;
     const whatsappURL = `https://wa.me/919590826668?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, "_blank");
-    setDone(true);
-    return;
   };
 
   return (
