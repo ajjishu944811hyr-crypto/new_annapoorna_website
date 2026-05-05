@@ -12,22 +12,32 @@ export const Reservation = () => {
     guests: 2,
     notes: "",
   });
+  const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
   const update = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const message = `New Reservation:
-    Name: ${form.name}
-    Phone: ${form.phone}
-    Email: ${form.email}
-    Date: ${form.date}
-    Time: ${form.time}
-    Guests: ${form.guests}
-    Notes: ${form.notes}`;
-    const whatsappURL = `https://wa.me/919590826668?text=${encodeURIComponent(message)}`;
-    window.open(whatsappURL, "_blank");
+    setLoading(true);
+    try {
+      const res = await fetch("https://your-backend.onrender.com/reservation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(form)
+      });
+      if (res.ok) {
+        setDone(true);
+      } else {
+        alert("Could not submit reservation");
+      }
+    } catch (err) {
+      alert("Could not submit reservation");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -187,10 +197,11 @@ export const Reservation = () => {
 
                 <button
                   type="submit"
+                  disabled={loading}
                   data-testid="reservation-submit"
                   className="btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Confirm Reservation
+                  {loading ? "Sending..." : "Confirm Reservation"}
                 </button>
               </div>
             )}
