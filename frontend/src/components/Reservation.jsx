@@ -42,6 +42,15 @@ export const Reservation = () => {
 
       console.log("Response status:", res.status);
 
+      // Handle non-JSON responses (like Vercel 404 pages) gracefully
+      const contentType = res.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        const textError = await res.text();
+        console.error("Non-JSON response:", textError);
+        alert(`Server Error (${res.status}). Ensure Vercel API is deployed correctly. Cannot parse response as JSON.`);
+        return;
+      }
+
       const data = await res.json();
       console.log("Response data:", data);
 
@@ -63,11 +72,11 @@ Notes: ${notes}`;
 
         setDone(true);
       } else {
-        alert("Submission failed");
+        alert("Submission failed: " + (data.message || "Unknown error"));
       }
     } catch (err) {
       console.error("Fetch error:", err);
-      alert("Error submitting form");
+      alert("Error submitting form: " + err.message);
     }
   };
 
