@@ -1,7 +1,7 @@
 [build]
   base = "frontend"
-  publish = "frontend/build"
-  command = "npm install --no-package-lock && npm run build"
+  publish = "build"
+  command = "rm -f package-lock.json && npm install --legacy-peer-deps && CI=false npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
