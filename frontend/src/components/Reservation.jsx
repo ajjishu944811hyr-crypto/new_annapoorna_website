@@ -24,21 +24,21 @@ export const Reservation = () => {
     try {
       console.log("Sending request...");
 
-      const res = await fetch("/api/reservation", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name,
-          phone,
-          email,
-          date,
-          time,
-          guests,
-          notes
-        })
-      });
+      const message = `New Reservation:
+Name: ${name}
+Phone: ${phone}
+Email: ${email}
+Date: ${date}
+Time: ${time}
+Guests: ${guests}
+Notes: ${notes}`;
+
+      const whatsappURL =
+        `https://wa.me/919590826668?text=
+      ${encodeURIComponent(message)}`;
+
+      window.open(whatsappURL, "_blank");
+
 
       console.log("Response status:", res.status);
 
