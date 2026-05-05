@@ -20,24 +20,35 @@ export const Reservation = () => {
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const { name, phone, email, date, time, guests, notes } = form;
+
+    const message = `New Reservation:
+Name: ${name}
+Phone: ${phone}
+Date: ${date}
+Time: ${time}
+Guests: ${guests}
+Notes: ${notes}`;
+
     try {
       const API_URL = import.meta.env.VITE_API_URL || "https://new-annapoorna-website.onrender.com";
-      const res = await fetch(`${API_URL}/reservation`, {
+      // Try to save to database silently
+      await fetch(`${API_URL}/reservation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(form)
       });
-      if (res.ok) {
-        setDone(true);
-      } else {
-        alert("Could not submit reservation");
-      }
     } catch (err) {
-      alert("Could not submit reservation");
+      console.log("Database save failed, proceeding to WhatsApp anyway.");
     } finally {
       setLoading(false);
+      // ✅ Open WhatsApp
+      const whatsappURL = `https://wa.me/919590826668?text=${encodeURIComponent(message)}`;
+      window.open(whatsappURL, "_blank");
+
+      setDone(true);
     }
   };
 
