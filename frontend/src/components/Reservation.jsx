@@ -20,14 +20,9 @@ export const Reservation = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.phone || !form.date || !form.time) {
-      toast.error("Please fill in your name, phone, date and time.");
-      return;
-    }
-    setLoading(true);
+    const { name, phone, email, date, time, guests, notes } = form;
     try {
-      const { name, phone, email, date, time, guests, notes } = form;
-      const formattedDate = new Date(date).toISOString().split("T")[0];
+      console.log("Sending request...");
 
       const res = await fetch("/api/reservation", {
         method: "POST",
@@ -38,42 +33,27 @@ export const Reservation = () => {
           name,
           phone,
           email,
-          date: formattedDate,
+          date,
           time,
-          guests: Number(guests),
+          guests,
           notes
         })
       });
 
       console.log("Response status:", res.status);
+
       const data = await res.json();
       console.log("Response data:", data);
 
       if (data.success) {
-        alert("Booking successful");
-        
-        const message = `New Booking:\nName: ${name}\nPhone: ${phone}\nDate: ${formattedDate}\nTime: ${time}\nGuests: ${guests}`;
-        window.open(`https://wa.me/9590826668?text=${encodeURIComponent(message)}`);
-        
+        alert("Booking successful!");
         setDone(true);
-        toast.success("Table requested! We’ll call to confirm shortly.");
-        setForm({
-          name: "",
-          phone: "",
-          email: "",
-          date: "",
-          time: "19:30",
-          guests: 2,
-          notes: "",
-        });
       } else {
         alert("Submission failed");
       }
     } catch (err) {
-      console.error("Submit Catch Error:", err);
-      alert("Submission failed");
-    } finally {
-      setLoading(false);
+      console.error("Fetch error:", err);
+      alert("Error submitting form");
     }
   };
 
