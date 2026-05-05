@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Calendar, Clock, Users, Phone, Mail, User, MessageSquare, CheckCircle2 } from "lucide-react";
-import { toast } from "sonner";
 
 export const Reservation = () => {
   const [form, setForm] = useState({
@@ -13,7 +12,6 @@ export const Reservation = () => {
     guests: 2,
     notes: "",
   });
-  const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
   const update = (k, v) => setForm((p) => ({ ...p, [k]: v }));
@@ -189,11 +187,10 @@ export const Reservation = () => {
 
                 <button
                   type="submit"
-                  disabled={loading}
                   data-testid="reservation-submit"
                   className="btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {loading ? "Sending…" : "Confirm Reservation"}
+                  Confirm Reservation
                 </button>
               </div>
             )}
