@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { motion } from "framer-motion";
 import { Mail, MessageSquare, User, CheckCircle2, Phone, MapPin } from "lucide-react";
 import { toast } from "sonner";
@@ -9,35 +8,26 @@ const API = "http://127.0.0.1:8000/api";
 
 export const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
   const update = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
-  const submit = async (e) => {
-  e.preventDefault();
+  const submit = (e) => {
+    e.preventDefault();
 
-  if (!form.name || !form.email || form.message.length < 5) {
-    toast.error("Please share your name, email and a short message.");
-    return;
-  }
+    if (!form.name || !form.email || form.message.length < 5) {
+      toast.error("Please share your name, email and a short message.");
+      return;
+    }
 
-  setLoading(true);
+    const message = `New Message:
+    Name: ${form.name}
+    Email: ${form.email}
+    Message: ${form.message}`;
 
-  try {
-    await axios.post("http://127.0.0.1:8000/api/contact", form);
-
-    setDone(true);
-    toast.success("Thanks! We've received your message.");
-    setForm({ name: "", email: "", message: "" });
-
-  } catch (err) {
-    console.error(err);
-    toast.error("Could not send. Please call us instead.");
-  } finally {
-    setLoading(false);
-  }
-};
+    const whatsappURL = `https://wa.me/919590826668?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, "_blank");
+  };
   return (
     <section
       id="contact"
@@ -164,11 +154,10 @@ export const Contact = () => {
                 </div>
                 <button
                   type="submit"
-                  disabled={loading}
                   data-testid="contact-submit"
                   className="btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold disabled:opacity-60"
                 >
-                  {loading ? "Sending…" : "Send Message"}
+                  Send Message
                 </button>
               </form>
             )}
