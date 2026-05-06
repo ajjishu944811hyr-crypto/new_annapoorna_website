@@ -22,33 +22,30 @@ export const Reservation = () => {
     setLoading(true);
     const { name, phone, email, date, time, guests, notes } = form;
 
-    const message = `New Reservation:
-Name: ${name}
-Phone: ${phone}
-Date: ${date}
-Time: ${time}
-Guests: ${guests}
-Notes: ${notes}`;
+    const message = `New Reservation:\nName: ${name}\nPhone: ${phone}\nDate: ${date}\nTime: ${time}\nGuests: ${guests}\nNotes: ${notes}`;
 
+    // ✅ Open WhatsApp IMMEDIATELY (must be synchronous / direct user gesture)
+    // so browsers don't block the popup
+    const whatsappURL = `https://wa.me/919590826668?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, "_blank");
+
+    // Save to MongoDB in the background (non-blocking)
     try {
-      const API_URL = import.meta.env.VITE_API_URL || "https://new-annapoorna-website.onrender.com";
-      // Try to save to database silently
-      await fetch(`${API_URL}/reservation`, {
+      const res = await fetch("/api/reservation", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(form)
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
       });
+      const result = await res.json();
+      if (!res.ok || !result.success) {
+        console.error("DB save failed:", result.message);
+      }
+      setDone(true);
     } catch (err) {
-      console.log("Database save failed, proceeding to WhatsApp anyway.");
+      console.error("Reservation DB error:", err);
+      alert("Sorry, we couldn't save your reservation. Please call us at +91 95908 26668.");
     } finally {
       setLoading(false);
-      // ✅ Open WhatsApp
-      const whatsappURL = `https://wa.me/919590826668?text=${encodeURIComponent(message)}`;
-      window.open(whatsappURL, "_blank");
-
-      setDone(true);
     }
   };
 
