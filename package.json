@@ -1,6 +1,7 @@
 {
-  "name": "annapoorna",
+  "name": "annapoorna-main",
   "version": "1.0.0",
+  "description": "Root package for Netlify functions",
   "dependencies": {
     "mongoose": "^8.0.0"
   }

@@ -5,8 +5,14 @@ let isConnected = false;
 
 async function connectDB() {
   if (isConnected) return;
+
+  if (!process.env.MONGO_URI) {
+    throw new Error("MONGO_URI environment variable is not set");
+  }
+
   await mongoose.connect(process.env.MONGO_URI);
   isConnected = true;
+  console.log("MongoDB connected successfully");
 }
 
 const reservationSchema = new mongoose.Schema(
@@ -76,6 +82,7 @@ exports.handler = async (event) => {
     });
 
     await reservation.save();
+    console.log("Reservation saved:", reservation._id);
 
     return {
       statusCode: 200,
@@ -87,7 +94,7 @@ exports.handler = async (event) => {
       }),
     };
   } catch (err) {
-    console.error("Reservation save error:", err);
+    console.error("Reservation save error:", err.message);
     return {
       statusCode: 500,
       headers,
