@@ -12,41 +12,22 @@ export const Reservation = () => {
     guests: 2,
     notes: "",
   });
-  const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
   const update = (k, v) => setForm((p) => ({ ...p, [k]: v }));
 
-  const submit = async (e) => {
+  const submit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    const { name, phone, email, date, time, guests, notes } = form;
+    const { name, phone, date, time, guests, notes } = form;
 
     const message = `New Reservation:\nName: ${name}\nPhone: ${phone}\nDate: ${date}\nTime: ${time}\nGuests: ${guests}\nNotes: ${notes}`;
 
-    // ✅ Open WhatsApp IMMEDIATELY (must be synchronous / direct user gesture)
-    // so browsers don't block the popup
+    // Open WhatsApp instantly with all booking details
     const whatsappURL = `https://wa.me/919590826668?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, "_blank");
 
-    // Save to MongoDB in the background (non-blocking)
-    try {
-      const res = await fetch("/api/reservation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const result = await res.json();
-      if (!res.ok || !result.success) {
-        console.error("DB save failed:", result.message);
-      }
-      setDone(true);
-    } catch (err) {
-      console.error("Reservation DB error:", err);
-      alert("Sorry, we couldn't save your reservation. Please call us at +91 95908 26668.");
-    } finally {
-      setLoading(false);
-    }
+    // Show success screen immediately
+    setDone(true);
   };
 
   return (
@@ -206,11 +187,10 @@ export const Reservation = () => {
 
                 <button
                   type="submit"
-                  disabled={loading}
                   data-testid="reservation-submit"
-                  className="btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="btn-primary w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm font-semibold"
                 >
-                  {loading ? "Sending..." : "Confirm Reservation"}
+                  Confirm Reservation
                 </button>
               </div>
             )}
